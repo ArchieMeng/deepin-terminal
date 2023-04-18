@@ -147,17 +147,6 @@ void Settings::init()
     });
 #endif
 
-    /***add begin by ut001121 zhangmeng 20200912 设置字号限制 修复42250***/
-    auto option = settings->option("basic.interface.font_size");
-    Konsole::__minFontSize = option->data("min").isValid() ? option->data("min").toInt() : DEFAULT_MIN_FONT_SZIE;
-    Konsole::__maxFontSize = option->data("max").isValid() ? option->data("max").toInt() : DEFAULT_MAX_FONT_SZIE;
-
-    // 校验正确
-    if (Konsole::__minFontSize > Konsole::__maxFontSize)
-        qSwap(Konsole::__minFontSize, Konsole::__maxFontSize);
-
-    /***add end by ut001121***/
-
     //自定义主题配置初始化处理
     m_configCustomThemePath = QString("%1/%2/%3/customTheme.colorscheme")
                               .arg(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation), qApp->organizationName(), qApp->applicationName());
@@ -744,22 +733,21 @@ QPair<QWidget *, QWidget *> Settings::createSpinButtonHandle(QObject *obj)
 {
     auto option = qobject_cast<DTK_CORE_NAMESPACE::DSettingsOption *>(obj);
     auto rightWidget = new NewDspinBox();
-
     rightWidget->setMinimum(option->data("min").toInt());
     rightWidget->setMaximum(option->data("max").toInt());
     rightWidget->setSingleStep(option->data("step").toInt());
-    rightWidget->setValue(option->value().toInt());
+    rightWidget->setValue(qBound(option->data("min").toInt(), option->value().toInt(), option->data("max").toInt()));
 
     QPair<QWidget *, QWidget *> optionWidget =
         DSettingsWidgetFactory::createStandardItem(QByteArray(), option, rightWidget);
     connect(
     option, &DSettingsOption::valueChanged, rightWidget, [ = ](QVariant var) {
-        rightWidget->setValue(var.toInt());
+        rightWidget->setValue(qBound(option->data("min").toInt(), var.toInt(), option->data("max").toInt()));
     });
     //Add by ut001000 renfeixiang 2020-11-06 使用QSpinBox自带的valueChanged信号
     option->connect(rightWidget, static_cast<void (QSpinBox::*)(int value)>(&QSpinBox::valueChanged),
     option, [ = ](int value) {
-        option->setValue(value);
+        option->setValue(qBound(option->data("min").toInt(), value, option->data("max").toInt()));
     });
 
     return optionWidget;

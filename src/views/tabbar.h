@@ -9,6 +9,7 @@
 #include <DTabBar>
 #include <DMenu>
 
+#include <QMimeData>
 #include <QProxyStyle>
 
 DWIDGET_USE_NAMESPACE

@@ -9,7 +9,9 @@
 #include <DKeySequenceEdit>
 #include <DComboBox>
 
+#include <QCollator>
 #include <QFileSystemWatcher>
+#include <QJsonDocument>
 #include <qsettingbackend.h>
 #include <QSettings>
 

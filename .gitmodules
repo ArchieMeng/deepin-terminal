@@ -1,3 +1,6 @@
 [submodule "test/googletest"]
 	path = test/googletest
 	url = https://github.com/google/googletest
+[submodule "3rdparty/dtermwidget"]
+	path = 3rdparty/dtermwidget
+	url = https://github.com/ArchieMeng/dtermwidget.git

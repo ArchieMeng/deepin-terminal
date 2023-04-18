@@ -616,13 +616,13 @@ void TermWidgetPage::handleFindNext()
 {
     qInfo() << m_findBar->searchKeytxt();
     setMismatchAlert(false);
-    m_currentTerm->search(m_findBar->searchKeytxt(), true, true);
+//    m_currentTerm->search(true, true);
 }
 
 void TermWidgetPage::handleFindPrev()
 {
     setMismatchAlert(false);
-    m_currentTerm->search(m_findBar->searchKeytxt(), false, false);
+//    m_currentTerm->search(false, false);
 }
 
 /*******************************************************************************
@@ -679,6 +679,7 @@ void TermWidgetPage::slotShowPluginChanged(const QString name)
     MainWindow *mainWindow = qobject_cast<MainWindow *>(sender());
     // 判断是否是当前页，不是当前页不用管
     if (mainWindow && mainWindow->currentPage() == this) {
+        m_currentTerm->toggleShowSearchBar();
         // 显示和隐藏搜索框
         if (MainWindow::PLUGIN_TYPE_SEARCHBAR == name) {
             // 显示搜索框

@@ -20,11 +20,12 @@
 #include <QVariant>
 #include <QCommandLineParser>
 #include <QKeySequence>
+#include <QProcessEnvironment>
 
-namespace Konsole {
-extern __attribute__((visibility("default"))) int __minFontSize;
-extern __attribute__((visibility("default"))) int __maxFontSize;
-}
+//namespace Konsole {
+//extern __attribute__((visibility("default"))) int __minFontSize;
+//extern __attribute__((visibility("default"))) int __maxFontSize;
+//}
 
 /******** Modify by m000714 daizhengwen 2020-04-03: 自绘的显示控件限制item的宽度****************/
 #define ITEMMAXWIDTH 140

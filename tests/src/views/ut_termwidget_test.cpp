@@ -257,8 +257,8 @@ TEST_F(UT_TermWidget_Test, search)
     EXPECT_EQ(currTermPage->isVisible(), true);
 
     TermWidget *termWidget = currTermPage->m_currentTerm;
-    termWidget->search("~", true, false);
-    termWidget->search("~", false, true);
+    termWidget->search(true, false);
+    termWidget->search(false, true);
 }
 
 TEST_F(UT_TermWidget_Test, onTermWidgetReceivedData)

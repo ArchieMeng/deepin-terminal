@@ -19,7 +19,7 @@
 #define SEARCHBAR_RIGHT_MARGIN 382
 
 // qterminal
-const QString TERM_WIDGET_NAME = "Konsole::TerminalScreen";
+const QString TERM_WIDGET_NAME = "Konsole::TerminalDisplay";
 
 // log
 // 性能测试相关日志

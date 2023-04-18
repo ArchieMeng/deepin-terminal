@@ -6,11 +6,15 @@
 #include "termbasedialog.h"
 
 //dtk
+#include <DGuiApplicationHelper>
 #include <DApplicationHelper>
 
 //qt
 #include <QLabel>
 #include <QDebug>
+
+DGUI_USE_NAMESPACE
+DWIDGET_USE_NAMESPACE
 
 /*******************************************************************************
  1. @函数:    palrtteTransparency

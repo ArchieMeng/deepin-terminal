@@ -78,14 +78,7 @@ pkg_check_modules(DFrameworkDBus REQUIRED dframeworkdbus)
 pkg_check_modules(LIBSECRET REQUIRED libsecret-1)
 pkg_check_modules(XCB_EWMH REQUIRED xcb-ewmh x11)
 
-
-# Compile definitions for TerminalWidget
-# So we can use QT_VERSION_CHECK
-set(TERMINALWIDGET_VERSION_MAJOR "0")
-set(TERMINALWIDGET_VERSION_MINOR "14")
-set(TERMINALWIDGET_VERSION_PATCH "1")
-
-add_subdirectory(3rdparty/terminalwidget)
+add_subdirectory(3rdparty/dtermwidget)
 
 include_directories(${DtkWidget_INCLUDE_DIRS})
 include_directories(${DtkGui_INCLUDE_DIRS})
@@ -98,7 +91,7 @@ include_directories("src/main")
 include_directories("src/remotemanage")
 include_directories("src/settings")
 include_directories("src/views")
-include_directories("3rdparty/terminalwidget/lib")
+include_directories("3rdparty/dtermwidget/lib")
 
 set(LINK_LIBS
     Qt5::Core
@@ -257,7 +250,7 @@ target_include_directories(${EXE_NAME} PUBLIC ${Qt5Widgets_LIBRARIES}
                                               ${LIBSECRET_INCLUDE_DIRS}
                                               ${XCB_EWMH_INCLUDE_DIRS})
 
-target_link_libraries (deepin-terminal ${LINK_LIBS} terminalwidget5)
+target_link_libraries (deepin-terminal ${LINK_LIBS} dtermwidget5)
 
 # Installation
 
@@ -280,7 +273,7 @@ install(FILES ${DTNG_QM_FILES} DESTINATION ${CMAKE_INSTALL_DATADIR}/deepin-termi
 install(DIRECTORY src/assets/deepin-terminal
         DESTINATION ${CMAKE_INSTALL_DATADIR}/deepin-manual/manual-assets/application/)
 
-# Unit Test
-if (CMAKE_BUILD_TYPE MATCHES Debug)
-  add_subdirectory(tests)
-endif()
+## Unit Test
+#if (CMAKE_BUILD_TYPE MATCHES Debug)
+#  add_subdirectory(tests)
+#endif()

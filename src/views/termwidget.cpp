@@ -180,7 +180,7 @@ void TermWidget::initConnections()
             &TermWidget::onThemeTypeChanged);
 
     // 未找到搜索的匹配结果
-    connect(this, &QTermWidget::sig_noMatchFound, this, &TermWidget::onSig_noMatchFound);
+    connect(this, &QTermWidget::noMatchFound, this, &TermWidget::onSig_noMatchFound);
     /********************* Modify by n014361 wangpeili End ************************/
 
     connect(this, &QTermWidget::isTermIdle, this, &TermWidget::onTermIsIdle);

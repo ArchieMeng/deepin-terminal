@@ -29,9 +29,7 @@ include_directories("src/encodeplugin")
 include_directories("src/remotemanage")
 include_directories("src/views")
 include_directories("src/main")
-include_directories("src/3rdparty/terminalwidget/lib/")
-include_directories("src/3rdparty/terminalwidget/lib/history")
-include_directories("src/3rdparty/terminalwidget/lib/history/compact")
+include_directories("src/3rdparty/dtermwidget/lib/")
 
 FILE(GLOB allSource
     ../src/common/*.cpp
@@ -59,12 +57,6 @@ FILE(GLOB allHeaders
     ../src/views/*.h
 )
 
-FILE(GLOB allThirdPartySource
-    ../3rdparty/terminalwidget/lib/*.cpp
-    ../3rdparty/terminalwidget/lib/history/*.cpp
-    ../3rdparty/terminalwidget/lib/history/compact/*.cpp
-)
-
 FILE(GLOB qrcFiles
     ../src/assets/resources.qrc
 )
@@ -77,7 +69,7 @@ FILE(GLOB allTestHeader
     src/remotemanage/*.h
     src/settings/*.h
     src/views/*.h
-    src/3rdparty/terminalwidget/lib/*.h
+    src/3rdparty/dtermwidget/lib/*.h
 )
 
 FILE(GLOB allTestSource
@@ -90,12 +82,12 @@ FILE(GLOB allTestSource
     src/views/*.cpp
 )
 
-set(UI ../3rdparty/terminalwidget/lib/SearchBar.ui)
+set(UI ../3rdparty/dtermwidget/lib/SearchBar.ui)
 qt5_wrap_ui(UI_SRCS ${UI})
 
-set(KB_LAYOUT_DIR "${CMAKE_INSTALL_FULL_DATADIR}/${TERMINALWIDGET_LIBRARY_NAME}/kb-layouts")
-set(COLORSCHEMES_DIR "${CMAKE_INSTALL_FULL_DATADIR}/${TERMINALWIDGET_LIBRARY_NAME}/color-schemes")
-set(TRANSLATIONS_DIR "${CMAKE_INSTALL_FULL_DATADIR}/${TERMINALWIDGET_LIBRARY_NAME}/translations")
+set(KB_LAYOUT_DIR "${CMAKE_INSTALL_FULL_DATADIR}/${dtermwidget_LIBRARY_NAME}/kb-layouts")
+set(COLORSCHEMES_DIR "${CMAKE_INSTALL_FULL_DATADIR}/${dtermwidget_LIBRARY_NAME}/color-schemes")
+set(TRANSLATIONS_DIR "${CMAKE_INSTALL_FULL_DATADIR}/${dtermwidget_LIBRARY_NAME}/translations")
 
 add_definitions("-DHAVE_POSIX_OPENPT")
 add_definitions("-DKB_LAYOUT_DIR=\"${KB_LAYOUT_DIR}\"")
@@ -104,7 +96,6 @@ add_definitions("-DTRANSLATIONS_DIR=\"${TRANSLATIONS_DIR}\"")
 
 add_executable(${PROJECT_NAME_TEST}
     ${UI_SRCS}
-    ${allThirdPartySource}
     ${allHeaders}
     ${allSource}
     ${allTestHeader}
@@ -127,7 +118,7 @@ target_include_directories(${PROJECT_NAME_TEST} PUBLIC ${Qt5Widgets_LIBRARIES}
                                                         ${GOBJECT_INCLUDE_DIRS}
                                                         ${LIBSECRET_INCLUDE_DIRS})
 
-target_link_libraries(${PROJECT_NAME_TEST} PUBLIC ${LINK_LIBS} Qt5::Test ${GTEST_LIBRARIES} ${GTEST_MAIN_LIBRARIES} -lpthread -lm)
+target_link_libraries(${PROJECT_NAME_TEST} PUBLIC ${LINK_LIBS} Qt5::Test ${GTEST_LIBRARIES} ${GTEST_MAIN_LIBRARIES} dtermwidget5 -lpthread -lm)
 
 #------------------------------ 创建'make test'指令---------------------------------------
 add_custom_target(test
