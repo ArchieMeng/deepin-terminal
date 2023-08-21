@@ -62,6 +62,14 @@ void ServerConfigManager::fillServerList(ListView *listview, const QString &grou
                 item->setChecked(true);
             }
         }
+    } else {
+        // 空分组则选择编辑未分组服务器，以添加分组
+        for (ServerConfig *item : m_serverConfigs[""]) {
+            listview->addItem(ItemFuncType_UngroupedItem, item->m_serverName, QString("%1@%2").arg(item->m_userName).arg(item->m_address));
+        }
+        for (ItemWidget *item: listview->itemList()) {
+            item->setChecked(false);
+        }
     }
 }
 
@@ -247,6 +255,7 @@ void ServerConfigManager::initServerConfig()
     }
 
 
+    // Todo (Yutao Meng): 远程服务器配置保存以服务器为准，所以空组不会被保存。如需支持，需要修改实现。
     // 新数据写入map
     for (ServerConfig *config : m_remoteConfigs) {
         // 没有密码的情况都要去DBus中获取一下
@@ -303,6 +312,7 @@ void ServerConfigManager::delServerGroupConfig(const QString &key)
             delServerConfig(config);
             saveServerConfig(newConfig);
         }
+        m_serverConfigs.remove(key);
     }
     else {
         qInfo() << Q_FUNC_INFO << "Cannot find group " << key;
@@ -341,11 +351,6 @@ void ServerConfigManager::delServerConfig(ServerConfig *config)
     //将map中数据清除
     // 删除数据
     m_serverConfigs[config->m_group].removeOne(config);
-    // 判断组成员
-    if (0 == m_serverConfigs[config->m_group].count()) {
-        // 若组内无成员
-        m_serverConfigs.remove(config->m_group);
-    }
     // 所有弹窗都消失才能delete config
     delete config;
 }

@@ -36,6 +36,7 @@ GroupConfigOptDlg::GroupConfigOptDlg(const QString &groupName, QWidget *parent)
       m_serverList(new ListView(ListType_Remote, this))
 {
     m_groupNameEdit->setPlaceholderText(tr("Group Name(Required)"));
+    // 有组名则为编辑分组调用，无组名则为添加分组
     if (groupName.isEmpty()) {
         m_titleLabel->setText(tr("Add Group"));
     } else {
@@ -60,11 +61,12 @@ GroupConfigOptDlg::GroupConfigOptDlg(const QString &groupName, QWidget *parent)
     DSuggestButton *pAddSaveButton = new DSuggestButton(groupName.isEmpty() ? tr("Add") : tr("Save"));
     pAddSaveButton->setDefault(true);
     connect(pAddSaveButton, &DSuggestButton::clicked, this, [this] {
-        if (m_groupNameEdit->text().trimmed().isEmpty()) {
+        const QString newGroupName = m_groupNameEdit->text().trimmed();
+        if (newGroupName.isEmpty()) {
             m_groupNameEdit->showAlertMessage(tr("Please enter a group name"), m_groupNameEdit);
             return;
         }
-        if (m_groupNameEdit->text().trimmed().length() > 30) {
+        if (newGroupName.length() > 30) {
             m_groupNameEdit->showAlertMessage(tr("The name should be no more than 30 characters"), m_groupNameEdit);
             return;
         }
@@ -76,13 +78,18 @@ GroupConfigOptDlg::GroupConfigOptDlg(const QString &groupName, QWidget *parent)
             *newConfig = *config;
             if (itemWidget->isChecked()) {
                 // 勾选的服务器分配新组名
-                newConfig->m_group = m_groupNameEdit->text().trimmed();
+                newConfig->m_group = newGroupName;
             } else {
                 // 未勾选的，取消分组
                 newConfig->m_group = "";
             }
             ServerConfigManager::instance()->delServerConfig(config);
             ServerConfigManager::instance()->saveServerConfig(newConfig);
+        }
+
+        // 添加新分组
+        if (!ServerConfigManager::instance()->getServerConfigs().contains(newGroupName)) {
+            ServerConfigManager::instance()->getServerConfigs().insert(newGroupName, {});
         }
         accept();
     });
