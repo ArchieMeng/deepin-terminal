@@ -7,7 +7,6 @@
 #include "settings.h"
 #include "termproperties.h"
 #include "mainwindow.h"
-#include "shortcutmanager.h"
 #include "utils.h"
 #include "service.h"
 #include "windowsmanager.h"
@@ -153,6 +152,7 @@ TermWidget::TermWidget(const TermProperties &properties, QWidget *parent) : QTer
     }
 
     setFocusPolicy(Qt::NoFocus);
+    setHorizontalMargin(8);
 
     TermWidgetPage *parentPage = qobject_cast<TermWidgetPage *>(parent);
     //qInfo() << parentPage << endl;
