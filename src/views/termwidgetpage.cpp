@@ -614,15 +614,16 @@ void TermWidgetPage::onTermClosed()
 
 void TermWidgetPage::handleFindNext()
 {
-    qInfo() << m_findBar->searchKeytxt();
+    QString text = m_findBar->searchKeytxt();
+    qInfo() << text;
     setMismatchAlert(false);
-//    m_currentTerm->search(true, true);
+    m_currentTerm->search(text, true, true);
 }
 
 void TermWidgetPage::handleFindPrev()
 {
     setMismatchAlert(false);
-//    m_currentTerm->search(false, false);
+    m_currentTerm->search(m_findBar->searchKeytxt(), false, false);
 }
 
 /*******************************************************************************
@@ -657,6 +658,7 @@ void TermWidgetPage::handleUpdateSearchKeyword(const QString &keyword)
     if (keyword.isEmpty()) {
         m_currentTerm->clearSelection();
     } else {
+	// Todo: Possibly a customization setting can be added for this
         // 输入时直接查找，被禁用
         // m_currentTerm->search(m_findBar->SearchKeytxt(), true, false);
     }
